@@ -11,8 +11,7 @@
 	max-height: 23px;
 	align-self: flex-start;
 }
-
-@media screen and (max-width: 680px){
+@media screen and (max-width: 680px) {
 	.popup__title {
 		font-size: 18px;
 		padding-left: 0;

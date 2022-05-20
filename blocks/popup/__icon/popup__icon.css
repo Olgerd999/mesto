@@ -7,7 +7,7 @@
 	opacity: .6;
 }
 @media screen and (max-width: 680px) {
-	.popup__icon{
+	.popup__icon {
 		top: -16;
 		right: 0;
 		width: 20px;
