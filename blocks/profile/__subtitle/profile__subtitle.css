@@ -6,11 +6,16 @@
     line-height: 22px;
     color: #FFFFFF;
     margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width:390px;
 }
 @media screen and (max-width: 680px) {
     .profile__subtitle {
 		margin-bottom: 36px;
         font-size: 14px;
         line-height: 17px;
+        max-width:290px;
 	}
 }
