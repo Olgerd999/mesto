@@ -2,11 +2,11 @@
 const openButton = document.querySelector('.profile__edit-button');
 const popup = document.querySelector('.popup');
 const closeButton = popup.querySelector('.popup__icon');
-const firstnameValue = popup.querySelector('.popup__input-firstname');
-const professionValue = popup.querySelector('.popup__input-professional');
+const firstnameValue = document.getElementById('popup-firstname');
+const professionValue = document.getElementById('popup-professional');
 const fio = document.querySelector('.profile__title');
 const profession = document.querySelector('.profile__subtitle')
-const saveButton = document.querySelector('.popup__button-save')
+const form = document.querySelector('.popup__content')
 
 function addPopup(){  // функция открытия popup
 	popup.classList.add("popup_opened"); // добавляет + класс
@@ -27,4 +27,4 @@ function formSubmitHandler (evt) {
 // ставим слушателей на события нажатия кнопок
 openButton.addEventListener('click', addPopup);
 closeButton.addEventListener('click', closePopup);
-saveButton.addEventListener('click', formSubmitHandler);
+form.addEventListener('submit', formSubmitHandler);

@@ -1,21 +1,25 @@
 .profile__subtitle {
-    font-family: 'Inter', 'Arial', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    color: #FFFFFF;
-    margin: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width:390px;
+  font-family: "Inter", "Arial", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 390px;
+}
+@media screen and (max-width: 1024px) {
+  .profile__subtitle {
+    margin-bottom: 36px;
+  }
 }
 @media screen and (max-width: 680px) {
-    .profile__subtitle {
-		margin-bottom: 36px;
-        font-size: 14px;
-        line-height: 17px;
-        max-width:290px;
-	}
+  .profile__subtitle {
+    font-size: 14px;
+    line-height: 17px;
+    max-width: 290px;
+  }
 }

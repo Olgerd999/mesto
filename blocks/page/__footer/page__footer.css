@@ -1,11 +1,11 @@
 .page__footer {
-    padding-top: 67px;
-    padding-bottom: 60px;
+  padding-top: 67px;
+  padding-bottom: 60px;
 }
 @media screen and (max-width: 680px) {
-    .page__footer {
-        padding-top: 48px;
-        padding-bottom: 36px;
-        padding-left: 19px;
-    }
+  .page__footer {
+    padding-top: 48px;
+    padding-bottom: 36px;
+    padding-left: 19px;
+  }
 }

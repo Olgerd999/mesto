@@ -1,9 +1,9 @@
 .profile__info {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-@media screen and (max-width: 680px) {
-    .profile__info {
-		align-items: center;
-	}
+@media screen and (max-width: 1024px) {
+  .profile__info {
+    align-items: center;
+  }
 }
