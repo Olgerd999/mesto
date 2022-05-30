@@ -7,9 +7,15 @@
   color: #545454;
   margin: 0;
 }
+@media screen and (max-width: 950px) {
+  .footer__author {
+    padding-left: 20px;
+  }
+}
 @media screen and (max-width: 680px) {
   .footer__author {
     font-size: 14px;
     line-height: 17px;
+    padding-left: 0;
   }
 }
