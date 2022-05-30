@@ -1,0 +1,13 @@
+.element__logo_active {
+  background-image: url("../../../images/heart.svg");
+  background-size: 22px 19px;
+  margin-right: 5px;
+  background-repeat: no-repeat;
+  border-style: none;
+  cursor: pointer;
+  width: 22px;
+  height: 19px;
+  align-self: center;
+  background-color: #000;
+  padding: 0;
+}
