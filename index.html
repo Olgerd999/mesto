@@ -31,82 +31,30 @@
           </div>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
-        <button type="button" class="profile__add-button"></button>
-        <!--кнопка с + -->
+        <button type="button" class="profile__add-button"></button><!--кнопка с + -->
       </section>
 
       <!-- СЕКЦИЯ 3 С КУЧЕЙ КАРТИНОК -->
+      
+      <template class="card"> <!-- шаблон создание карточек -->
+        <div class="element">
+          <img class="element__image" src="" alt="" />
+          <div class="element__description">
+            <h2 class="element__title"></h2>
+            <button class="logo-heart element__logo" type="button"></button>
+          </div>
+        </div>
+      </template>
+
       <section class="elements">
-        <div class="element">
-          <img
-            class="element__image"
-            src="./images/karachaevsk.jpg"
-            alt="Карачаевcк"
-          />
-          <div class="element__description">
-            <h2 class="element__title">Карачаевcк</h2>
-            <button class="element__logo" type="button"></button>
-          </div>
-        </div>
-
-        <div class="element">
-          <img
-            class="element__image"
-            src="./images/elbrus.jpg"
-            alt="Гора Эльбрус"
-          />
-          <div class="element__description">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__logo" type="button"></button>
-          </div>
-        </div>
-
-        <div class="element">
-          <img class="element__image" src="./images/dombai.jpg" alt="Домбай" />
-          <div class="element__description">
-            <h2 class="element__title">Домбай</h2>
-            <button class="logo-heart element__logo" type="button"></button>
-          </div>
-        </div>
-
-        <div class="element">
-          <img
-            class="element__image"
-            src="./images/elbrus.jpg"
-            alt="Гора Эльбрус"
-          />
-          <div class="element__description">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="logo-heart element__logo" type="button"></button>
-          </div>
-        </div>
-
-        <div class="element">
-          <img class="element__image" src="./images/dombai.jpg" alt="Домбай" />
-          <div class="element__description">
-            <h2 class="element__title">Домбай</h2>
-            <button class="logo-heart element__logo" type="button"></button>
-          </div>
-        </div>
-
-        <div class="element">
-          <img
-            class="element__image"
-            src="./images/karachaevsk.jpg"
-            alt="Карачаево-Черкесская"
-          />
-          <div class="element__description">
-            <h2 class="element__title">Карачаево-Черкесская</h2>
-            <button class="logo-heart element__logo" type="button"></button>
-          </div>
-        </div>
+        
       </section>
 
       <!-- POPUP -->
-      <section class="popup">
+      <section class="popup popup__type_edit-name"> <!--1//Добавлен второй класс.!!!-->
         <div class="popup__container">
           <button class="popup__icon" type="button"></button>
-          <form class="popup__content" name="popupForm">
+          <form class="popup__content popup__content_type_editname" name="popupForm">
             <h2 class="popup__title">Редактировать профиль</h2>
             <input
               type="text"
@@ -124,6 +72,30 @@
           </form>
         </div>
       </section>
+
+      <!-- Popup + Card -->
+      <section class="popup popup__type_add-card"> <!--1//Добавлен второй класс.!!!-->
+        <div class="popup__container">
+          <button class="popup__icon popup__icon_type_addcard" type="button"></button>
+          <form class="popup__content popup__content_type_addcard" name="addCard">
+            <h2 class="popup__title">Новое место</h2>
+            <input
+              type="text"
+              name=""
+              class="popup__text"
+              id=""
+            />
+            <input
+              type="text"
+              name=""
+              class="popup__text"
+              id=""
+            />
+            <button type="submit" class="popup__button-save">Создать</button>
+          </form>
+        </div>
+      </section>
+
     </main>
     <!-- ФУТЕР -->
     <footer class="footer body__footer">
