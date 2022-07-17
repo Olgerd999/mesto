@@ -1,6 +1,6 @@
 //задаем переменные
 const openButton = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
-const popupEditName = document.querySelector(".popup__type_edit-name");// popup редактирования имени
+const popupEditName = document.querySelector(".popup_type_edit-name");// popup редактирования имени
 const closeButton = document.querySelector(".popup__icon");
 const firstnameValue = document.getElementById("popup-firstname");
 const professionValue = document.getElementById("popup-professional");
@@ -9,11 +9,11 @@ const profession = document.querySelector(".profile__subtitle");
 const form = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
 //5 проектная переменные
 const addButtonCard = document.querySelector(".profile__add-button"); //кнопка +
-const addCardPopup = document.querySelector(".popup__type_add-card");//popup добавления карточек
+const addCardPopup = document.querySelector(".popup_type_add-card");//popup добавления карточек
 const formAddCard = document.querySelector(".popup__content_type_addcard");//форма popup добавления карточек 
 const closeButtonPopupAddCard = document.querySelector(".popup__icon_type_addcard");//кнопка создания(с созданием карточки)попапа добавления карточек
 const closeButtonPopupZoom = document.querySelector(".popup__icon_type_zoom");//кнопка закрытия попап Zoom
-const popupTypeZoom = document.querySelector(".popup__type_zoom");
+const popupTypeZoom = document.querySelector(".popup_type_zoom");
 
 const selectors = {
   list: '.elements',
