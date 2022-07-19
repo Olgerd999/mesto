@@ -1,18 +1,18 @@
 //задаем переменные
-const openButton = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
+const buttonEditName = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
 const popupEditName = document.querySelector(".popup_type_edit-name");// popup редактирования имени
-const closeButton = document.querySelector(".popup__icon");
+const buttonCloseEditName = document.querySelector(".popup__icon");
 const firstnameValue = document.getElementById("popup-firstname");
 const professionValue = document.getElementById("popup-professional");
 const fio = document.querySelector(".profile__title");
 const profession = document.querySelector(".profile__subtitle");
 const form = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
 //5 проектная переменные
-const addButtonCard = document.querySelector(".profile__add-button"); //кнопка +
-const addCardPopup = document.querySelector(".popup_type_add-card");//popup добавления карточек
+const buttonCardAdd = document.querySelector(".profile__add-button"); //кнопка +
+const popupAddCard = document.querySelector(".popup_type_add-card");//popup добавления карточек
 const formAddCard = document.querySelector(".popup__content_type_addcard");//форма popup добавления карточек 
-const closeButtonPopupAddCard = document.querySelector(".popup__icon_type_addcard");//кнопка создания(с созданием карточки)попапа добавления карточек
-const closeButtonPopupZoom = document.querySelector(".popup__icon_type_zoom");//кнопка закрытия попап Zoom
+const buttonPopupAddCardClose = document.querySelector(".popup__icon_type_addcard");//кнопка создания(с созданием карточки)попапа добавления карточек
+const buttonPopupZoomClose = document.querySelector(".popup__icon_type_zoom");//кнопка закрытия попап Zoom
 const popupTypeZoom = document.querySelector(".popup_type_zoom");
 
 const selectors = {
@@ -35,44 +35,58 @@ const list = document.querySelector(selectors.list);
 const popupCaption = document.querySelector(selectors.popupCaption);
 const popupZoomImage = document.querySelector(selectors.popupZoomImage);
 
-function addPopup() {  // функция открытия popup
-  popupEditName.classList.add("popup_opened"); // добавляет + класс
-  firstnameValue.value = fio.textContent; // добавляем в форму Input значение value="fio"
-  professionValue.value = profession.textContent; // добавляем в форму Input значение value="profession"
-}
-function closePopup() {  // функция закрытия popup редактирования имени
-  popupEditName.classList.remove("popup_opened"); // удаляем класс со свойством display:flex
-}
-function formSubmitHandler(evt) { //функция отправки формы с именем
+function SubmitHandlerForm(evt) { //функция отправки формы с именем
   evt.preventDefault(); // отменяем стандартную отправку формы.
   fio.textContent = firstnameValue.value; // вносим введенное значение в Html
   profession.textContent = professionValue.value;
-  closePopup(); //вызываем функцию закрывающую popup
+  closePopup(popupEditName); //вызываем функцию закрывающую popup
 }
 
 //5 проектная функции
-function openPopapPlusCard() {
-  addCardPopup.classList.add("popup_opened"); //открывает popup addcard
+//после исправлений функции
+function openPopup(popup) { //открытие любого попапа
+  popup.classList.add("popup_opened");
 }
-function closePopapPlusCard() {
-  addCardPopup.classList.remove("popup_opened"); //закрывает Popup добавления карточек
+function openPopupEditName() {  //открывает popup редактирование имени
+  firstnameValue.value = fio.textContent; // берем значение value ИЗ html и вставляем в форму input
+  professionValue.value = profession.textContent;
+  openPopup(popupEditName);
 }
-function closePopapZoom() {
-  popupTypeZoom.classList.remove("popup_opened"); //закрывает Popup Zoom
+// function openPopupPlusCard() { //открывает popup addcard +
+//   openPopup(popupAddCard);
+// }
+// function openPopupZoom() { //открывает popup Zoom (картинка)
+//   openPopup(popupTypeZoom);
+// }
+
+function closePopup(popup) {//закрывает любой popup
+  popup.classList.remove("popup_opened");
 }
-function formSubmitPopupAddCard(evt) { // добавляет  новую карточку из попапа
+
+// function closePopupEditName() { //закрывает Popup edit name
+//   closePopup(popupEditName);
+// }
+
+// function closePopupPlusCard() {
+//   closePopup(popupAddCard); //закрывает Popup добавления карточек
+// }
+function closePopupZoom() {
+  closePopup(popupTypeZoom); //закрывает Popup Zoom
+}
+function SubmitPopupAddCardForm(evt) { // добавляет  новую карточку из попапа
   evt.preventDefault();
   const object = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
-  createCard(object); //передаем объект в функцию создания карточек
-  closePopapPlusCard();
+  incertCard(object); //передаем объект в функцию создания карточек
+  closePopupPlusCard();
   formAddCard.reset();
 }
 
-function createCard({ name, link }) { //создаем карточку
+function createCard(card) { //создаем карточку
   const template = document.querySelector(selectors.template).content.querySelector(selectors.element).cloneNode(true); // делаем копию шаблона в DOM
-  template.querySelector(selectors.name).textContent = name; //задаем карточке имя из переменной
-  template.querySelector(selectors.img).src = link; //задаем картинке SRC из переменной
-  template.querySelector(selectors.img).alt = name;//задаем картинке ALT из переменной
+  const templateImg = template.querySelector(selectors.img);
+  template.querySelector(selectors.name).textContent = card.name; //задаем карточке имя из переменной
+  templateImg.src = card.link; //задаем картинке SRC из переменной
+  templateImg.alt = card.name;//задаем картинке ALT из переменной
 
   const buttonHeart = template.querySelector(selectors.buttonHeart);
   buttonHeart.addEventListener('click', () => { //функция лайк сердечка
@@ -84,50 +98,31 @@ function createCard({ name, link }) { //создаем карточку
   });
 
   const image = template.querySelector(selectors.img).addEventListener('click', () => { // отркываем картинку попап
-    popupZoomImage.src = link; //добавляем картинке адрес SRC
-    popupZoomImage.alt = name;
-    popupTypeZoom.classList.add("popup_opened");
-    popupCaption.textContent = name; //добавляем имя картинки под картинкой
+    popupZoomImage.src = card.link; //добавляем картинке адрес SRC
+    popupZoomImage.alt = card.name;
+    popupCaption.textContent = card.name; //добавляем имя картинки под картинкой
+    openPopup(popupTypeZoom);
   });
-  list.prepend(template); //вставляем готовый шаблон в верстку
+
+  return template;
 }
 
-function createInitialCards() { //добавляем первоначальные карточки
-  const cards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }];
-  cards.forEach(createCard); //запускаем перебор массива в объекте с передачей значений (name, link) в функцию создания карточек.
+function incertCard(card){ //функция вставки карточки в верстку
+  const template = createCard(card);
+  list.prepend(template);
 }
-createInitialCards(); // вызываем функцию первоначального создания карточек.
+cards.forEach(function (card) {
+  //перебор заданного массива
+  incertCard(card); //вызов функции для заполнения контейнера содержимым из template
+});
 
 // ставим слушателей на события нажатия кнопок
-openButton.addEventListener("click", addPopup);
-closeButton.addEventListener("click", closePopup);
-form.addEventListener("submit", formSubmitHandler);
+buttonEditName.addEventListener("click", openPopupEditName);
+buttonCloseEditName.addEventListener("click", () => closePopup(popupEditName));
+form.addEventListener("submit", SubmitHandlerForm);
 
 //5 проектная слушатели
-addButtonCard.addEventListener("click", openPopapPlusCard); //слушатель кнопки добавления карточки +
-formAddCard.addEventListener("submit", formSubmitPopupAddCard); //создание карточки (сохранение, submit)
-closeButtonPopupAddCard.addEventListener("click", closePopapPlusCard);  //закрытие попапа  addCard крестиком
-closeButtonPopupZoom.addEventListener("click", closePopapZoom); //слушатель закрытие попапа Zoom с фотографией
+buttonCardAdd.addEventListener("click", () => openPopup(popupAddCard)); //слушатель кнопки добавления карточки + 
+formAddCard.addEventListener("submit", SubmitPopupAddCardForm); //создание карточки (сохранение, submit)
+buttonPopupAddCardClose.addEventListener("click", () => closePopup(popupAddCard));  //закрытие попапа  addCard крестиком
+buttonPopupZoomClose.addEventListener("click", ()=> closePopup(popupTypeZoom)); //слушатель закрытие попапа Zoom с фотографией

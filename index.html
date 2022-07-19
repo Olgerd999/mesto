@@ -35,24 +35,12 @@
 
     <!-- СЕКЦИЯ 3 С КУЧЕЙ КАРТИНОК -->
 
-    <template class="card">
-      <!-- шаблон создание карточек -->
-      <div class="element">
-        <img class="element__image" src="#" alt="#" />
-        <button type="button" class="element__remove"></button>
-        <div class="element__description">
-          <h2 class="element__title"></h2>
-          <button class="logo-heart element__logo" type="button"></button>
-        </div>
-      </div>
-    </template>
-
     <section class="elements">
       <!-- сюда будем вставлять наши карточки из шаблона -->
     </section>
 
     <!-- POPUP -->
-    <section class="popup popup_type_edit-name">
+    <div class="popup popup_type_edit-name">
       <div class="popup__container">
         <button class="popup__icon" type="button"></button>
         <form class="popup__content popup__content_type_editname" name="popupForm">
@@ -62,10 +50,10 @@
           <button type="submit" class="popup__button-save">Сохранить</button>
         </form>
       </div>
-    </section>
+    </div>
 
     <!-- Popup + Card -->
-    <section class="popup popup_type_add-card">
+    <div class="popup popup_type_add-card">
       <div class="popup__container">
         <button class="popup__icon popup__icon_type_addcard" type="button"></button>
         <form class="popup__content popup__content_type_addcard" name="addCard">
@@ -75,15 +63,15 @@
           <button type="submit" class="popup__button-save">Создать</button>
         </form>
       </div>
-    </section>
+    </div>
 
-    <section class="popup popup_type_zoom">
+    <div class="popup popup_type_zoom">
       <div class="popup__zoom">
         <button type="button" class="popup__icon popup__icon_type_zoom"></button>
         <img class="popup__image" src="#" alt="#">
         <h3 class="popup__caption"></h3>
       </div>
-    </section>
+    </div>
 
   </main>
   <!-- ФУТЕР -->
@@ -91,8 +79,21 @@
     <p class="footer__author">© 2020 Mesto Russia</p>
   </footer>
   
+  <template class="card">
+    <!-- шаблон создание карточек -->
+    <div class="element">
+      <img class="element__image" src="#" alt="#" />
+      <button type="button" class="element__remove"></button>
+      <div class="element__description">
+        <h2 class="element__title"></h2>
+        <button class="logo-heart element__logo" type="button"></button>
+      </div>
+    </div>
+  </template>
   <!-- подключаем java скрипт  -->
+  <script type="text/javascript" src="./scripts/data.js"></script>
   <script type="text/javascript" src="./scripts/index.js"></script>
+  
   
 </body>
 
