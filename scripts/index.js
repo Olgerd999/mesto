@@ -77,7 +77,7 @@ function SubmitPopupAddCardForm(evt) { // добавляет  новую кар�
   evt.preventDefault();
   const object = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
   incertCard(object); //передаем объект в функцию создания карточек
-  closePopupPlusCard();
+  closePopup(popupAddCard);
   formAddCard.reset();
 }
 
