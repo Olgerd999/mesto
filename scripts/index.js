@@ -7,7 +7,7 @@ const professionValue = document.getElementById("popup-professional");
 const fio = document.querySelector(".profile__title");
 const profession = document.querySelector(".profile__subtitle");
 const form = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
-//5 проектная переменные
+
 const buttonCardAdd = document.querySelector(".profile__add-button"); //кнопка +
 const popupAddCard = document.querySelector(".popup_type_add-card");//popup добавления карточек
 const formAddCard = document.querySelector(".popup__content_type_addcard");//форма popup добавления карточек 
@@ -29,56 +29,72 @@ const selectors = {
   popupCaption: '.popup__caption'
 }
 
+const formEditName = {
+  form: '.popup__content_type_editname',
+  button: '.popup__button-save',
+	buttonInvalid: 'popup__button-save_invalid',
+	buttonValid: 'popup__button_valid',
+}
+const formAddCardNew = {
+  form: '.popup__content_type_addcard',
+  button: '.popup__button-save',
+	buttonInvalid: 'popup__button-save_invalid',
+	buttonValid: 'popup__button_valid'
+}
 const placeNameInput = document.getElementById(selectors.placeNameInput);
 const imgSrc = document.getElementById(selectors.imgSrc);
 const list = document.querySelector(selectors.list);
 const popupCaption = document.querySelector(selectors.popupCaption);
 const popupZoomImage = document.querySelector(selectors.popupZoomImage);
 
-function SubmitHandlerForm(evt) { //функция отправки формы с именем
-  evt.preventDefault(); // отменяем стандартную отправку формы.
+function SubmitHandlerForm(event) { //функция отправки формы с именем
+  event.preventDefault(); // отменяем стандартную отправку формы.
   fio.textContent = firstnameValue.value; // вносим введенное значение в Html
   profession.textContent = professionValue.value;
-  closePopup(popupEditName); //вызываем функцию закрывающую popup
+  closePopup(popupEditName);
 }
 
-//5 проектная функции
-//после исправлений функции
 function openPopup(popup) { //открытие любого попапа
+  if (popup === popupAddCard) {
+    enableValidation(formAddCardNew);
+  }
   popup.classList.add("popup_opened");
+  popup.addEventListener('click', addListenerPopupOverlay);
+  document.addEventListener('keydown', addListenerPopupEsc);
+  function addListenerPopupOverlay(evt){
+    if (evt.target !== evt.currentTarget) {
+      return;
+    }
+    popup.removeEventListener('click', addListenerPopupOverlay);
+    document.removeEventListener('keydown', addListenerPopupEsc);
+    closePopup(popup);
+  };
+  function addListenerPopupEsc(evt){
+    if (evt.key === 'Escape') {
+      document.removeEventListener('keydown', addListenerPopupEsc);
+      popup.removeEventListener('click', addListenerPopupOverlay);
+      closePopup(popup);
+    }
+      return;
+  };
 }
 function openPopupEditName() {  //открывает popup редактирование имени
   firstnameValue.value = fio.textContent; // берем значение value ИЗ html и вставляем в форму input
   professionValue.value = profession.textContent;
+  enableValidation(formEditName);
   openPopup(popupEditName);
 }
-// function openPopupPlusCard() { //открывает popup addcard +
-//   openPopup(popupAddCard);
-// }
-// function openPopupZoom() { //открывает popup Zoom (картинка)
-//   openPopup(popupTypeZoom);
-// }
 
 function closePopup(popup) {//закрывает любой popup
   popup.classList.remove("popup_opened");
-}
+  popupErrorText = document.querySelectorAll('.popup__error');
+  popupErrorText.forEach((errorElement) => {
+  errorElement.textContent=''; 
+  });
+  }
 
-// function closePopupEditName() { //закрывает Popup edit name
-//   closePopup(popupEditName);
-// }
-
-// function closePopupPlusCard() {
-//   closePopup(popupAddCard); //закрывает Popup добавления карточек
-// }
 function closePopupZoom() {
   closePopup(popupTypeZoom); //закрывает Popup Zoom
-}
-function SubmitPopupAddCardForm(evt) { // добавляет  новую карточку из попапа
-  evt.preventDefault();
-  const object = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
-  incertCard(object); //передаем объект в функцию создания карточек
-  closePopup(popupAddCard);
-  formAddCard.reset();
 }
 
 function createCard(card) { //создаем карточку
@@ -92,18 +108,15 @@ function createCard(card) { //создаем карточку
   buttonHeart.addEventListener('click', () => { //функция лайк сердечка
     buttonHeart.classList.toggle("element__logo_active"); //меняем класс для черного сердца
   });
-
   template.querySelector(selectors.buttonRemove).addEventListener('click', () => {
     template.remove(); //удаление карточки
   });
-
   const image = template.querySelector(selectors.img).addEventListener('click', () => { // отркываем картинку попап
     popupZoomImage.src = card.link; //добавляем картинке адрес SRC
     popupZoomImage.alt = card.name;
     popupCaption.textContent = card.name; //добавляем имя картинки под картинкой
     openPopup(popupTypeZoom);
   });
-
   return template;
 }
 
@@ -111,18 +124,27 @@ function incertCard(card){ //функция вставки карточки в �
   const template = createCard(card);
   list.prepend(template);
 }
-cards.forEach(function (card) {
+  cards.forEach(function (card) {
   //перебор заданного массива
   incertCard(card); //вызов функции для заполнения контейнера содержимым из template
 });
 
-// ставим слушателей на события нажатия кнопок
-buttonEditName.addEventListener("click", openPopupEditName);
-buttonCloseEditName.addEventListener("click", () => closePopup(popupEditName));
-form.addEventListener("submit", SubmitHandlerForm);
-
-//5 проектная слушатели
+function SubmitPopupAddCardForm(event) { // добавляет  новую карточку из попапа
+  event.preventDefault();
+  const object = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
+  incertCard(object); //передаем объект в функцию создания карточек
+  closePopup(popupAddCard);
+  formAddCard.reset();
+}
+//Слушатели открытия
+buttonEditName.addEventListener("click", openPopupEditName);// открытие popup редактирования имени
 buttonCardAdd.addEventListener("click", () => openPopup(popupAddCard)); //слушатель кнопки добавления карточки + 
+
+//слушатели закрытия крестиком
+buttonCloseEditName.addEventListener("click", () => closePopup(popupEditName)); //закрытие popup
+buttonPopupAddCardClose.addEventListener("click", () => closePopup(popupAddCard));  //закрытие popup  addCard крестиком
+buttonPopupZoomClose.addEventListener("click", ()=> closePopup(popupTypeZoom)); //слушатель закрытие popup Zoom с фотографией
+
+//слушатели submit
 formAddCard.addEventListener("submit", SubmitPopupAddCardForm); //создание карточки (сохранение, submit)
-buttonPopupAddCardClose.addEventListener("click", () => closePopup(popupAddCard));  //закрытие попапа  addCard крестиком
-buttonPopupZoomClose.addEventListener("click", ()=> closePopup(popupTypeZoom)); //слушатель закрытие попапа Zoom с фотографией
+form.addEventListener("submit", SubmitHandlerForm);

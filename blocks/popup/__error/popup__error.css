@@ -1,0 +1,19 @@
+.popup__error {
+  padding-top: 5px;
+  width: 358px;
+  font-family: "Inter", "Arial", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #FF0000;
+  min-height: 14px;
+}
+.popup__error:first-child {
+  padding-bottom: 13px;
+}
+@media screen and (max-width: 680px) {
+  .popup__error {
+    width: 238px;
+  }
+}
