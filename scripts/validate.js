@@ -29,3 +29,4 @@ function enableValidation(config) {
 		  button.classList.add(config.buttonInvalid);
 	  }
   }
+  
