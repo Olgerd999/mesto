@@ -29,18 +29,19 @@ const selectors = {
   popupCaption: '.popup__caption'
 }
 
-const formEditName = {
-  form: '.popup__content_type_editname',
-  button: '.popup__button-save',
-	buttonInvalid: 'popup__button-save_invalid',
-	buttonValid: 'popup__button_valid',
-}
-const formAddCardNew = {
+// const formEditName = {
+//   form: '.popup__content_type_editname',
+//   button: '.popup__button-save',
+// 	buttonInvalid: 'popup__button-save_invalid',
+// 	buttonValid: 'popup__button_valid',
+// }
+const validationConfig = {
   form: '.popup__content_type_addcard',
   button: '.popup__button-save',
 	buttonInvalid: 'popup__button-save_invalid',
 	buttonValid: 'popup__button_valid'
 }
+
 const placeNameInput = document.getElementById(selectors.placeNameInput);
 const imgSrc = document.getElementById(selectors.imgSrc);
 const list = document.querySelector(selectors.list);
@@ -81,7 +82,7 @@ function openPopup(popup) { //открытие любого попапа
 function openPopupEditName() {  //открывает popup редактирование имени
   firstnameValue.value = fio.textContent; // берем значение value ИЗ html и вставляем в форму input
   professionValue.value = profession.textContent;
-  enableValidation(formEditName);
+  // enableValidation(formEditName);
   openPopup(popupEditName);
 }
 
@@ -148,3 +149,5 @@ buttonPopupZoomClose.addEventListener("click", ()=> closePopup(popupTypeZoom)); 
 //слушатели submit
 formAddCard.addEventListener("submit", SubmitPopupAddCardForm); //создание карточки (сохранение, submit)
 form.addEventListener("submit", SubmitHandlerForm);
+
+enableValidation();//validationConfig
