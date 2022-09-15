@@ -1,12 +1,12 @@
 //задаем переменные
 const buttonEditName = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
 const popupEditName = document.querySelector(".popup_type_edit-name");// popup редактирования имени
-const buttonCloseEditName = document.querySelector(".popup__icon");
+const buttonCloseEditName = popupEditName.querySelector(".popup__icon");
 const firstnameValue = document.getElementById("popup-firstname");
 const professionValue = document.getElementById("popup-professional");
-const fio = document.querySelector(".profile__title");
+const name = document.querySelector(".profile__title");
 const profession = document.querySelector(".profile__subtitle");
-const form = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
+const formName = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
 
 const buttonCardAdd = document.querySelector(".profile__add-button"); //кнопка +
 const popupAddCard = document.querySelector(".popup_type_add-card");//popup добавления карточек
@@ -23,23 +23,10 @@ const selectors = {
   buttonHeart: '.element__logo',
   buttonRemove: '.element__remove',
   img: '.element__image',
-  placeNameInput: 'placename',
-  imgSrc: 'imgsrc',
+  placeNameInput: 'placeName',
+  imgSrc: 'imgSrc',
   popupZoomImage: '.popup__image',
   popupCaption: '.popup__caption'
-}
-
-// const formEditName = {
-//   form: '.popup__content_type_editname',
-//   button: '.popup__button-save',
-// 	buttonInvalid: 'popup__button-save_invalid',
-// 	buttonValid: 'popup__button_valid',
-// }
-const validationConfig = {
-  form: '.popup__content_type_addcard',
-  button: '.popup__button-save',
-	buttonInvalid: 'popup__button-save_invalid',
-	buttonValid: 'popup__button_valid'
 }
 
 const placeNameInput = document.getElementById(selectors.placeNameInput);
@@ -48,57 +35,58 @@ const list = document.querySelector(selectors.list);
 const popupCaption = document.querySelector(selectors.popupCaption);
 const popupZoomImage = document.querySelector(selectors.popupZoomImage);
 
-function SubmitHandlerForm(event) { //функция отправки формы с именем
+//функция отправки формы с именем
+function submitHandlerForm(event) {
   event.preventDefault(); // отменяем стандартную отправку формы.
-  fio.textContent = firstnameValue.value; // вносим введенное значение в Html
+  name.textContent = firstnameValue.value; // вносим введенное значение в Html
   profession.textContent = professionValue.value;
   closePopup(popupEditName);
 }
 
-function openPopup(popup) { //открытие любого попапа
-  if (popup === popupAddCard) {
-    enableValidation(formAddCardNew);
-  }
+//открытие любого попапа
+function openPopup(popup) { 
   popup.classList.add("popup_opened");
-  popup.addEventListener('click', addListenerPopupOverlay);
-  document.addEventListener('keydown', addListenerPopupEsc);
-  function addListenerPopupOverlay(evt){
+  popup.addEventListener('click', clickByOverlayPopupListener);
+  document.addEventListener('keydown', clickOnEscPopupListener);
+  function clickByOverlayPopupListener(evt){
     if (evt.target !== evt.currentTarget) {
       return;
     }
-    popup.removeEventListener('click', addListenerPopupOverlay);
-    document.removeEventListener('keydown', addListenerPopupEsc);
+    popup.removeEventListener('click', clickByOverlayPopupListener);
+    document.removeEventListener('keydown', clickOnEscPopupListener);
     closePopup(popup);
   };
-  function addListenerPopupEsc(evt){
+  function clickOnEscPopupListener(evt){
     if (evt.key === 'Escape') {
-      document.removeEventListener('keydown', addListenerPopupEsc);
-      popup.removeEventListener('click', addListenerPopupOverlay);
+      document.removeEventListener('keydown', clickOnEscPopupListener);
+      popup.removeEventListener('click', clickByOverlayPopupListener);
       closePopup(popup);
     }
       return;
   };
 }
-function openPopupEditName() {  //открывает popup редактирование имени
-  firstnameValue.value = fio.textContent; // берем значение value ИЗ html и вставляем в форму input
-  professionValue.value = profession.textContent;
-  // enableValidation(formEditName);
+
+//открывает popup редактирование имени
+function openPopupEditName() {
   openPopup(popupEditName);
 }
 
-function closePopup(popup) {//закрывает любой popup
+//закрывает любой popup
+function closePopup(popup) {
   popup.classList.remove("popup_opened");
   popupErrorText = document.querySelectorAll('.popup__error');
   popupErrorText.forEach((errorElement) => {
-  errorElement.textContent=''; 
-  });
+    errorElement.textContent=''; 
+    });
   }
-
+  
+  //закрывает Popup Zoom
 function closePopupZoom() {
-  closePopup(popupTypeZoom); //закрывает Popup Zoom
+  closePopup(popupTypeZoom); 
 }
 
-function createCard(card) { //создаем карточку
+//создает карточку
+function createCard(card) { 
   const template = document.querySelector(selectors.template).content.querySelector(selectors.element).cloneNode(true); // делаем копию шаблона в DOM
   const templateImg = template.querySelector(selectors.img);
   template.querySelector(selectors.name).textContent = card.name; //задаем карточке имя из переменной
@@ -121,33 +109,37 @@ function createCard(card) { //создаем карточку
   return template;
 }
 
-function incertCard(card){ //функция вставки карточки в верстку
-  const template = createCard(card);
-  list.prepend(template);
+//функция вставки карточки в верстку
+function insertCard(card){ 
+  const newCard = createCard(card);
+  list.prepend(newCard);
 }
   cards.forEach(function (card) {
   //перебор заданного массива
-  incertCard(card); //вызов функции для заполнения контейнера содержимым из template
+  insertCard(card); //вызов функции для заполнения контейнера содержимым из template
 });
 
-function SubmitPopupAddCardForm(event) { // добавляет  новую карточку из попапа
+// добавляет  новую карточку из попапа
+function submitPopupAddCardForm(event) { 
   event.preventDefault();
-  const object = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
-  incertCard(object); //передаем объект в функцию создания карточек
+  const objectCard = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
+  insertCard(objectCard); //передаем объект в функцию создания карточек
   closePopup(popupAddCard);
   formAddCard.reset();
 }
-//Слушатели открытия
+
+//Слушатели открытия popup
 buttonEditName.addEventListener("click", openPopupEditName);// открытие popup редактирования имени
 buttonCardAdd.addEventListener("click", () => openPopup(popupAddCard)); //слушатель кнопки добавления карточки + 
 
-//слушатели закрытия крестиком
+//слушатели закрытия (крестиком)
 buttonCloseEditName.addEventListener("click", () => closePopup(popupEditName)); //закрытие popup
 buttonPopupAddCardClose.addEventListener("click", () => closePopup(popupAddCard));  //закрытие popup  addCard крестиком
 buttonPopupZoomClose.addEventListener("click", ()=> closePopup(popupTypeZoom)); //слушатель закрытие popup Zoom с фотографией
 
 //слушатели submit
-formAddCard.addEventListener("submit", SubmitPopupAddCardForm); //создание карточки (сохранение, submit)
-form.addEventListener("submit", SubmitHandlerForm);
+formAddCard.addEventListener("submit", submitPopupAddCardForm); //создание карточки (сохранение, submit)
+formName.addEventListener("submit", submitHandlerForm);
 
-enableValidation();//validationConfig
+//запускаем валидацию
+enableValidation(validationConfig); 
