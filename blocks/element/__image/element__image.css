@@ -2,4 +2,9 @@
   box-sizing: border-box;
   width: 282px;
   height: 282px;
+  background-color: black;
+  color: white;
+}
+.element__image:hover {
+ cursor: pointer;
 }

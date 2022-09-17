@@ -43,42 +43,51 @@ function submitHandlerForm(event) {
   closePopup(popupEditName);
 }
 
-//открытие любого попапа
-function openPopup(popup) { 
+//открытие любого попапа + ставим слушатели оверлея и ESC
+function openPopup(popup) {
+  const button = popup.querySelector('.popup__button-save');
+  //ставим условие отключающее кнопку для попапа добавления карточек при открытии(т.к. на других оно не нужно)
+  if (popup === popupAddCard){ 
+    button.setAttribute('disabled', true);
+    button.classList.add(validationConfig.buttonInvalid);
+  }
   popup.classList.add("popup_opened");
   popup.addEventListener('click', clickByOverlayPopupListener);
   document.addEventListener('keydown', clickOnEscPopupListener);
-  function clickByOverlayPopupListener(evt){
-    if (evt.target !== evt.currentTarget) {
-      return;
-    }
-    popup.removeEventListener('click', clickByOverlayPopupListener);
-    document.removeEventListener('keydown', clickOnEscPopupListener);
-    closePopup(popup);
-  };
-  function clickOnEscPopupListener(evt){
-    if (evt.key === 'Escape') {
-      document.removeEventListener('keydown', clickOnEscPopupListener);
-      popup.removeEventListener('click', clickByOverlayPopupListener);
-      closePopup(popup);
-    }
-      return;
-  };
 }
+
+// Фукция закрывает попап по клику на оверлей
+function clickByOverlayPopupListener(evt){
+  const popup = document.querySelector(".popup_opened");
+  if (evt.target !== evt.currentTarget) {
+    return;
+  }
+  closePopup(popup);
+};
+
+// Функция закрывает попап по клавише ESC
+function clickOnEscPopupListener(evt){
+  const popup = document.querySelector(".popup_opened");
+  if (evt.key === 'Escape') {
+    closePopup(popup);
+  }
+    return;
+};
 
 //открывает popup редактирование имени
 function openPopupEditName() {
   openPopup(popupEditName);
 }
 
-//закрывает любой popup
+//закрывает любой popup + удаляет слушатели оверлея и ESC
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
   popupErrorText = document.querySelectorAll('.popup__error');
-  popupErrorText.forEach((errorElement) => {
-    errorElement.textContent=''; 
-    });
-  }
+  popupErrorText.forEach((errorElement) => {errorElement.textContent='';
+  document.removeEventListener('keydown', clickOnEscPopupListener); //удаляем листнер ESC
+  popup.removeEventListener('click', clickByOverlayPopupListener);//удаляем листнер Overlay
+  });
+}
   
   //закрывает Popup Zoom
 function closePopupZoom() {
