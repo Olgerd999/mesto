@@ -15,6 +15,7 @@ const buttonPopupAddCardClose = document.querySelector(".popup__icon_type_addcar
 const buttonPopupZoomClose = document.querySelector(".popup__icon_type_zoom");//кнопка закрытия попап Zoom
 const popupTypeZoom = document.querySelector(".popup_type_zoom");
 
+
 const selectors = {
   list: '.elements',
   template: '.card',
@@ -79,6 +80,13 @@ function openPopupEditName() {
   openPopup(popupEditName);
 }
 
+function openPopupZoom(name, link){
+    popupZoomImage.src = link; //добавляем картинке адрес SRC
+    popupZoomImage.alt = name;
+    popupCaption.textContent = name; //добавляем имя картинки под картинкой
+    openPopup(popupTypeZoom);
+}
+
 //закрывает любой popup + удаляет слушатели оверлея и ESC
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
@@ -106,27 +114,37 @@ function createCard(card) {
   buttonHeart.addEventListener('click', () => { //функция лайк сердечка
     buttonHeart.classList.toggle("element__logo_active"); //меняем класс для черного сердца
   });
-  template.querySelector(selectors.buttonRemove).addEventListener('click', () => {
-    template.remove(); //удаление карточки
-  });
-  const image = template.querySelector(selectors.img).addEventListener('click', () => { // отркываем картинку попап
-    popupZoomImage.src = card.link; //добавляем картинке адрес SRC
-    popupZoomImage.alt = card.name;
-    popupCaption.textContent = card.name; //добавляем имя картинки под картинкой
-    openPopup(popupTypeZoom);
-  });
+  // template.querySelector(selectors.buttonRemove).addEventListener('click', () => {
+  //   template.remove(); //удаление карточки
+  // });
+  // const image = template.querySelector(selectors.img).addEventListener('click', () => { // отркываем картинку попап
+  //   popupZoomImage.src = card.link; //добавляем картинке адрес SRC
+  //   popupZoomImage.alt = card.name;
+  //   popupCaption.textContent = card.name; //добавляем имя картинки под картинкой
+  //   openPopup(popupTypeZoom);
+  // });
   return template;
 }
 
 //функция вставки карточки в верстку
-function insertCard(card){ 
-  const newCard = createCard(card);
-  list.prepend(newCard);
-}
-  cards.forEach(function (card) {
-  //перебор заданного массива
-  insertCard(card); //вызов функции для заполнения контейнера содержимым из template
-});
+cards.forEach((item) => {
+  // Создадим экземпляр карточки
+  const card = new Card(item, selectors.template, openPopupZoom);
+  // Создаём карточку и возвращаем наружу
+  const cardElement = card.generateCard();
+  
+  // Добавляем в DOM
+  document.querySelector('.elements').append(cardElement);
+  }); 
+
+// function insertCard(card){ 
+//   const newCard = createCard(card);
+//   list.prepend(newCard);
+// }
+//   cards.forEach(function (card) {
+//   //перебор заданного массива
+//   insertCard(card); //вызов функции для заполнения контейнера содержимым из template
+// });
 
 // добавляет  новую карточку из попапа
 function submitPopupAddCardForm(event) { 
