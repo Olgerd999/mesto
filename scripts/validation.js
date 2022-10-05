@@ -1,14 +1,4 @@
-//объект с переменными форм
-const validationConfig = {
-	formElement: '.popup__content',
-	button: '.popup__button-save',
-	buttonInvalid: 'popup__button-save_invalid',
-	buttonValid: 'popup__button_valid',
-  inputSelector: ".popup__input",
-  inputErrorClass: "popup__input_type_error",
-  formError: "form__error",
-  // errorClass: "popup__input-error_visible",
-  }
+
 
 // Функция, которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage, config) => {
@@ -64,7 +54,7 @@ const setEventListeners = (formElement, config) => {
 	// Находим все поля внутри формы,
     // сделаем из них массив методом Array.from
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  setSubmitButtonState(inputList, buttonElement, validationConfig);
+  setSubmitButtonState(inputList, buttonElement, validationConfig); //!!!!!! вызвать не забыть проверить
   // Обойдём все элементы полученной коллекции
   inputList.forEach((inputElement) => {
 	// каждому полю добавим обработчик события input

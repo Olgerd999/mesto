@@ -30,6 +30,18 @@ const selectors = {
   popupCaption: '.popup__caption'
 }
 
+//объект с переменными форм
+const validationConfig = {
+	formElement: '.popup__content',
+	button: '.popup__button-save',
+	buttonInvalid: 'popup__button-save_invalid',
+	buttonValid: 'popup__button_valid',
+  inputSelector: ".popup__input",
+  inputErrorClass: "popup__input_type_error",
+  formError: "form__error",
+  // errorClass: "popup__input-error_visible",
+  }
+
 const placeNameInput = document.getElementById(selectors.placeNameInput);
 const imgSrc = document.getElementById(selectors.imgSrc);
 const list = document.querySelector(selectors.list);
@@ -141,4 +153,6 @@ formAddCard.addEventListener("submit", submitPopupAddCardForm); //создани
 formName.addEventListener("submit", submitHandlerForm);
 
 //запускаем валидацию
-enableValidation(validationConfig); 
+// enableValidation(validationConfig); 
+const popupValidator = new FormValidator(validationConfig, validationConfig.formElement);
+popupValidator.enableValidation();
