@@ -1,7 +1,6 @@
 
 class Card {
 	constructor (data, template, openPopupZoom) {
-		
 	// в конструкторе будут динамические данные,
     // для каждого экземпляра свои
 		this._name = data.name;
@@ -26,15 +25,12 @@ class Card {
 	_handleLikeCard() {
 		this._element.querySelector(selectors.buttonHeart).classList.toggle('element__logo_active');
 	}
-	// _handleOpenPopupZoom(){
-	// 	this._openPopupZoom(this._name, this._link);
-	// }
 
 	// метод установки слушателей в карточки
 	_setEventListeners() {
-	this._element.querySelector(selectors.buttonRemove).addEventListener('click', ( )=> {
+	this._element.querySelector(selectors.buttonRemove).addEventListener('click', ()=> {
 		this._handleRemoveCard()});
-	this._element.querySelector(selectors.buttonHeart).addEventListener('click', ( )=> {
+	this._element.querySelector(selectors.buttonHeart).addEventListener('click', ()=> {
 		this._handleLikeCard()});
 	this._element.querySelector(selectors.img).addEventListener('click', () => {
 		this._openPopupZoom(this._name, this._link)});
@@ -54,5 +50,4 @@ class Card {
 	// Вернём элемент наружу
 		return this._element;
 	}
-	 
 }

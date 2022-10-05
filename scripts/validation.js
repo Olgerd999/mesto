@@ -6,6 +6,7 @@ const validationConfig = {
 	buttonValid: 'popup__button_valid',
   inputSelector: ".popup__input",
   inputErrorClass: "popup__input_type_error",
+  formError: "form__error",
   // errorClass: "popup__input-error_visible",
   }
 

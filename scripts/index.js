@@ -96,34 +96,9 @@ function closePopup(popup) {
   popup.removeEventListener('click', clickByOverlayPopupListener);//удаляем листнер Overlay
   });
 }
-  
   //закрывает Popup Zoom
 function closePopupZoom() {
   closePopup(popupTypeZoom); 
-}
-
-//создает карточку
-function createCard(card) { 
-  const template = document.querySelector(selectors.template).content.querySelector(selectors.element).cloneNode(true); // делаем копию шаблона в DOM
-  const templateImg = template.querySelector(selectors.img);
-  template.querySelector(selectors.name).textContent = card.name; //задаем карточке имя из переменной
-  templateImg.src = card.link; //задаем картинке SRC из переменной
-  templateImg.alt = card.name;//задаем картинке ALT из переменной
-
-  const buttonHeart = template.querySelector(selectors.buttonHeart);
-  buttonHeart.addEventListener('click', () => { //функция лайк сердечка
-    buttonHeart.classList.toggle("element__logo_active"); //меняем класс для черного сердца
-  });
-  // template.querySelector(selectors.buttonRemove).addEventListener('click', () => {
-  //   template.remove(); //удаление карточки
-  // });
-  // const image = template.querySelector(selectors.img).addEventListener('click', () => { // отркываем картинку попап
-  //   popupZoomImage.src = card.link; //добавляем картинке адрес SRC
-  //   popupZoomImage.alt = card.name;
-  //   popupCaption.textContent = card.name; //добавляем имя картинки под картинкой
-  //   openPopup(popupTypeZoom);
-  // });
-  return template;
 }
 
 //функция вставки карточки в верстку
@@ -137,14 +112,11 @@ cards.forEach((item) => {
   document.querySelector('.elements').append(cardElement);
   }); 
 
-// function insertCard(card){ 
-//   const newCard = createCard(card);
-//   list.prepend(newCard);
-// }
-//   cards.forEach(function (card) {
-//   //перебор заданного массива
-//   insertCard(card); //вызов функции для заполнения контейнера содержимым из template
-// });
+function insertCard(card){ 
+   const newCard = new Card(card, selectors.template, openPopupZoom);
+   const cardElement = newCard.generateCard();
+   list.prepend(cardElement);
+}
 
 // добавляет  новую карточку из попапа
 function submitPopupAddCardForm(event) { 
