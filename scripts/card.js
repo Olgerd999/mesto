@@ -1,5 +1,5 @@
-
-class Card {
+import { selectors } from "./index.js";
+export default class Card {
 	constructor (data, template, openPopupZoom) {
 	// в конструкторе будут динамические данные,
     // для каждого экземпляра свои

@@ -1,22 +1,8 @@
-//задаем переменные
-const buttonEditName = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
-const popupEditName = document.querySelector(".popup_type_edit-name");// popup редактирования имени
-const buttonCloseEditName = popupEditName.querySelector(".popup__icon");
-const firstnameValue = document.getElementById("popup-firstname");
-const professionValue = document.getElementById("popup-professional");
-const name = document.querySelector(".profile__title");
-const profession = document.querySelector(".profile__subtitle");
-const formName = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
+import {cards} from "./data.js";
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
-const buttonCardAdd = document.querySelector(".profile__add-button"); //кнопка +
-const popupAddCard = document.querySelector(".popup_type_add-card");//popup добавления карточек
-const formAddCard = document.querySelector(".popup__content_type_addcard");//форма popup добавления карточек 
-const buttonPopupAddCardClose = document.querySelector(".popup__icon_type_addcard");//кнопка создания(с созданием карточки)попапа добавления карточек
-const buttonPopupZoomClose = document.querySelector(".popup__icon_type_zoom");//кнопка закрытия попап Zoom
-const popupTypeZoom = document.querySelector(".popup_type_zoom");
-
-
-const selectors = {
+export const selectors = {
   list: '.elements',
   template: '.card',
   element: '.element',
@@ -41,13 +27,28 @@ const validationConfig = {
   formError: "form__error",
   // errorClass: "popup__input-error_visible",
   }
-
+//задаем переменные
+const buttonEditName = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
+const popupEditName = document.querySelector(".popup_type_edit-name");// popup редактирования имени
+const buttonCloseEditName = popupEditName.querySelector(".popup__icon");
+const firstnameValue = document.getElementById("popup-firstname");
+const professionValue = document.getElementById("popup-professional");
+const name = document.querySelector(".profile__title");
+const profession = document.querySelector(".profile__subtitle");
+const formName = document.querySelector(".popup__content_type_editname"); //  форма popup редактировать имя
+const buttonCardAdd = document.querySelector(".profile__add-button"); //кнопка +
+const popupAddCard = document.querySelector(".popup_type_add-card");//popup добавления карточек
+const formAddCard = document.querySelector(".popup__content_type_addcard");//форма popup добавления карточек 
+const buttonPopupAddCardClose = document.querySelector(".popup__icon_type_addcard");//кнопка создания(с созданием карточки)попапа добавления карточек
+const buttonPopupZoomClose = document.querySelector(".popup__icon_type_zoom");//кнопка закрытия попап Zoom
+const popupTypeZoom = document.querySelector(".popup_type_zoom");
+const classForm = document.querySelector(validationConfig.formElement);
 const placeNameInput = document.getElementById(selectors.placeNameInput);
 const imgSrc = document.getElementById(selectors.imgSrc);
 const list = document.querySelector(selectors.list);
 const popupCaption = document.querySelector(selectors.popupCaption);
 const popupZoomImage = document.querySelector(selectors.popupZoomImage);
-
+const popupErrorText = document.querySelectorAll('.popup__error');
 //функция отправки формы с именем
 function submitHandlerForm(event) {
   event.preventDefault(); // отменяем стандартную отправку формы.
@@ -63,6 +64,8 @@ function openPopup(popup) {
   if (popup === popupAddCard){ 
     button.setAttribute('disabled', true);
     button.classList.add(validationConfig.buttonInvalid);
+    const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
+    popupCardAddValidator.clearInputs();
   }
   popup.classList.add("popup_opened");
   popup.addEventListener('click', clickByOverlayPopupListener);
@@ -102,7 +105,7 @@ function openPopupZoom(name, link){
 //закрывает любой popup + удаляет слушатели оверлея и ESC
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  popupErrorText = document.querySelectorAll('.popup__error');
+  // popupErrorText = document.querySelectorAll('.popup__error');
   popupErrorText.forEach((errorElement) => {errorElement.textContent='';
   document.removeEventListener('keydown', clickOnEscPopupListener); //удаляем листнер ESC
   popup.removeEventListener('click', clickByOverlayPopupListener);//удаляем листнер Overlay
@@ -113,7 +116,7 @@ function closePopupZoom() {
   closePopup(popupTypeZoom); 
 }
 
-//функция вставки карточки в верстку
+//вставка первоначальных карточек
 cards.forEach((item) => {
   // Создадим экземпляр карточки
   const card = new Card(item, selectors.template, openPopupZoom);
@@ -124,6 +127,7 @@ cards.forEach((item) => {
   document.querySelector('.elements').append(cardElement);
   }); 
 
+//функция вставки карточки
 function insertCard(card){ 
    const newCard = new Card(card, selectors.template, openPopupZoom);
    const cardElement = newCard.generateCard();
@@ -153,6 +157,7 @@ formAddCard.addEventListener("submit", submitPopupAddCardForm); //создани
 formName.addEventListener("submit", submitHandlerForm);
 
 //запускаем валидацию
-// enableValidation(validationConfig); 
-const popupValidator = new FormValidator(validationConfig, validationConfig.formElement);
-popupValidator.enableValidation();
+const popupNameValidator = new FormValidator(validationConfig, formName);
+popupNameValidator.enableValidation();
+const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
+popupCardAddValidator.enableValidation();
