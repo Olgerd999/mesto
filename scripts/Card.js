@@ -15,7 +15,7 @@ export default class Card {
 	// вернём DOM-элемент карточки
 		return cardElement;
 	}
-	
+	 
 	// удаляет карточку
 	_handleRemoveCard() {
 		this._element.remove();
