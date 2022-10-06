@@ -46,6 +46,7 @@ export default class FormValidator {
 		  }
 		};
 	
+	//чистка полей инпут
 	clearInputs(){
 		this._inputList.forEach((inputElement) => {
 		inputElement.value = "";
@@ -66,6 +67,7 @@ export default class FormValidator {
 			buttonElement.removeAttribute('disabled');
 		  }
 	 }
+	 //и так понятно
 	_setEventListeners(){
 		this._inputList.forEach((inputElement) => {
 			inputElement.addEventListener('input', () => {
