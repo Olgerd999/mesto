@@ -1,4 +1,4 @@
-import { selectors } from "./index.js";
+import { selectors } from "./utils.js";
 export default class Card {
 	constructor (data, template, openPopupZoom) {
 	// в конструкторе будут динамические данные,
@@ -19,6 +19,7 @@ export default class Card {
 	// удаляет карточку
 	_handleRemoveCard() {
 		this._element.remove();
+		this._element = null;
 	}
 	
 	// ставит лукас
@@ -46,6 +47,7 @@ export default class Card {
 	// Добавим данные (текст карточки и ссылка на img)
 		this._element.querySelector('.element__title').textContent = this._name;
 		this._element.querySelector('.element__image').src = this._link;
+		this._element.querySelector('.element__image').alt = this._link;
 		
 	// Вернём элемент наружу
 		return this._element;

@@ -1,20 +1,20 @@
 import {cards} from "./data.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
-
-export const selectors = {
-  list: '.elements',
-  template: '.card',
-  element: '.element',
-  name: '.element__title',
-  buttonHeart: '.element__logo',
-  buttonRemove: '.element__remove',
-  img: '.element__image',
-  placeNameInput: 'placeName',
-  imgSrc: 'imgSrc',
-  popupZoomImage: '.popup__image',
-  popupCaption: '.popup__caption'
-}
+import {selectors} from "./utils.js";
+// export const selectors = {
+//   list: '.elements',
+//   template: '.card',
+//   element: '.element',
+//   name: '.element__title',
+//   buttonHeart: '.element__logo',
+//   buttonRemove: '.element__remove',
+//   img: '.element__image',
+//   placeNameInput: 'placeName',
+//   imgSrc: 'imgSrc',
+//   popupZoomImage: '.popup__image',
+//   popupCaption: '.popup__caption'
+// }
 
 //объект с переменными форм
 const validationConfig = {
@@ -45,12 +45,12 @@ const popupTypeZoom = document.querySelector(".popup_type_zoom");
 const classForm = document.querySelector(validationConfig.formElement);
 const placeNameInput = document.getElementById(selectors.placeNameInput);
 const imgSrc = document.getElementById(selectors.imgSrc);
-const list = document.querySelector(selectors.list);
+const cardsContainer = document.querySelector(selectors.cardsContainer);
 const popupCaption = document.querySelector(selectors.popupCaption);
 const popupZoomImage = document.querySelector(selectors.popupZoomImage);
 const popupErrorText = document.querySelectorAll('.popup__error');
 //функция отправки формы с именем
-function submitHandlerForm(event) {
+function submitProfileForm(event) {
   event.preventDefault(); // отменяем стандартную отправку формы.
   name.textContent = firstnameValue.value; // вносим введенное значение в Html
   profession.textContent = professionValue.value;
@@ -62,14 +62,21 @@ function openPopup(popup) {
   const button = popup.querySelector('.popup__button-save');
   //ставим условие отключающее кнопку для попапа добавления карточек при открытии(т.к. на других оно не нужно)
   if (popup === popupAddCard){ 
-    button.setAttribute('disabled', true);
-    button.classList.add(validationConfig.buttonInvalid);
-    const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
-    popupCardAddValidator.clearInputs();
+    openPopupAddCard(button);
+    // button.setAttribute('disabled', true);
+    // button.classList.add(validationConfig.buttonInvalid);
+    // const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
+    // popupCardAddValidator.clearInputs();
   }
   popup.classList.add("popup_opened");
-  popup.addEventListener('click', clickByOverlayPopupListener);
+  popup.addEventListener('mousedown', clickByOverlayPopupListener);
   document.addEventListener('keydown', clickOnEscPopupListener);
+}
+function openPopupAddCard(button) {
+    button.setAttribute('disabled', true);
+    button.classList.add(validationConfig.buttonInvalid);
+    // const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
+    popupCardAddValidator.clearInputs();
 }
 
 // Фукция закрывает попап по клику на оверлей
@@ -83,8 +90,8 @@ function clickByOverlayPopupListener(evt){
 
 // Функция закрывает попап по клавише ESC
 function clickOnEscPopupListener(evt){
-  const popup = document.querySelector(".popup_opened");
   if (evt.key === 'Escape') {
+    const popup = document.querySelector(".popup_opened");
     closePopup(popup);
   }
     return;
@@ -93,6 +100,8 @@ function clickOnEscPopupListener(evt){
 //открывает popup редактирование имени
 function openPopupEditName() {
   openPopup(popupEditName);
+   firstnameValue.value = name.textContent; // вносим введенное значение в Html
+   professionValue.value = profession.textContent;
 }
 
 function openPopupZoom(name, link){
@@ -105,15 +114,18 @@ function openPopupZoom(name, link){
 //закрывает любой popup + удаляет слушатели оверлея и ESC
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  // popupErrorText = document.querySelectorAll('.popup__error');
-  popupErrorText.forEach((errorElement) => {errorElement.textContent='';
-  document.removeEventListener('keydown', clickOnEscPopupListener); //удаляем листнер ESC
-  popup.removeEventListener('click', clickByOverlayPopupListener);//удаляем листнер Overlay
-  });
+  deleteErrorAndListenersFromPopup(popup)
 }
   //закрывает Popup Zoom
 function closePopupZoom() {
   closePopup(popupTypeZoom); 
+}
+
+function deleteErrorAndListenersFromPopup(popup){
+  popupErrorText.forEach((errorElement) => {errorElement.textContent='';
+  document.removeEventListener('keydown', clickOnEscPopupListener); //удаляем листнер ESC
+  popup.removeEventListener('click', clickByOverlayPopupListener);//удаляем листнер Overlay
+});
 }
 
 //вставка первоначальных карточек
@@ -124,14 +136,14 @@ cards.forEach((item) => {
   const cardElement = card.generateCard();
   
   // Добавляем в DOM
-  document.querySelector('.elements').append(cardElement);
+  cardsContainer.append(cardElement);
   }); 
 
 //функция вставки карточки
 function insertCard(card){ 
    const newCard = new Card(card, selectors.template, openPopupZoom);
    const cardElement = newCard.generateCard();
-   list.prepend(cardElement);
+   cardsContainer.prepend(cardElement);
 }
 
 // добавляет  новую карточку из попапа
@@ -140,7 +152,7 @@ function submitPopupAddCardForm(event) {
   const objectCard = { name: placeNameInput.value, link: imgSrc.value }; //создаем объект из введенных значений
   insertCard(objectCard); //передаем объект в функцию создания карточек
   closePopup(popupAddCard);
-  formAddCard.reset();
+  formAddCard.reset(); //кнопка сабмита деактивируется при открытии попапа добавления карточки
 }
 
 //Слушатели открытия popup
@@ -154,7 +166,7 @@ buttonPopupZoomClose.addEventListener("click", ()=> closePopup(popupTypeZoom)); 
 
 //слушатели submit
 formAddCard.addEventListener("submit", submitPopupAddCardForm); //создание карточки (сохранение, submit)
-formName.addEventListener("submit", submitHandlerForm);
+formName.addEventListener("submit", submitProfileForm);
 
 //запускаем валидацию
 const popupNameValidator = new FormValidator(validationConfig, formName);

@@ -58,7 +58,6 @@ export default class FormValidator {
 	 _setSubmitButtonState(inputList){
 		const buttonElement = this._classForm.querySelector(this._button);
 		if (this._hasInvalidInput(inputList)) {
-			buttonElement.removeAttribute('disabled');
 			buttonElement.classList.add(this._buttonInvalid);
 			buttonElement.setAttribute('disabled', true);
 		  } else {
