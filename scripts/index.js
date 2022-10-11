@@ -2,19 +2,6 @@ import {cards} from "./data.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import {selectors} from "./utils.js";
-// export const selectors = {
-//   list: '.elements',
-//   template: '.card',
-//   element: '.element',
-//   name: '.element__title',
-//   buttonHeart: '.element__logo',
-//   buttonRemove: '.element__remove',
-//   img: '.element__image',
-//   placeNameInput: 'placeName',
-//   imgSrc: 'imgSrc',
-//   popupZoomImage: '.popup__image',
-//   popupCaption: '.popup__caption'
-// }
 
 //объект с переменными форм
 const validationConfig = {
@@ -24,7 +11,9 @@ const validationConfig = {
 	buttonValid: 'popup__button_valid',
   inputSelector: ".popup__input",
   inputErrorClass: "popup__input_type_error",
-  formError: "form__error",
+  // formError: "form__error",
+  formError: ".popup__error",
+  popupErrorSpanClass:'.popup__error',
   // errorClass: "popup__input-error_visible",
   }
 //задаем переменные
@@ -59,25 +48,37 @@ function submitProfileForm(event) {
 
 //открытие любого попапа + ставим слушатели оверлея и ESC
 function openPopup(popup) {
-  const button = popup.querySelector('.popup__button-save');
-  //ставим условие отключающее кнопку для попапа добавления карточек при открытии(т.к. на других оно не нужно)
-  if (popup === popupAddCard){ 
-    openPopupAddCard(button);
-    // button.setAttribute('disabled', true);
-    // button.classList.add(validationConfig.buttonInvalid);
-    // const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
-    // popupCardAddValidator.clearInputs();
-  }
   popup.classList.add("popup_opened");
   popup.addEventListener('mousedown', clickByOverlayPopupListener);
   document.addEventListener('keydown', clickOnEscPopupListener);
 }
-function openPopupAddCard(button) {
-    button.setAttribute('disabled', true);
-    button.classList.add(validationConfig.buttonInvalid);
-    // const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
-    popupCardAddValidator.clearInputs();
+
+//открывает попап добавления карточек
+function openPopupAddCard(popup) {
+  const button = popup.querySelector('.popup__button-save')
+  button.setAttribute('disabled', true);
+  button.classList.add(validationConfig.buttonInvalid);
+  // const popupCardAddValidator = new FormValidator(validationConfig, formAddCard);
+  popupCardAddValidator.clearInputs();
+  popupCardAddValidator.clearError();
 }
+
+//открывает popup редактирование имени
+function openPopupEditName() {
+  popupNameValidator.clearError(); //чистит ошибки
+  popupNameValidator.clearInputs(); //чистит инпуты
+  openPopup(popupEditName);
+   firstnameValue.value = name.textContent; // вносим введенное значение в Html
+   professionValue.value = profession.textContent;
+}
+//открывает попап зум(картинку)
+function openPopupZoom(name, link){
+    popupZoomImage.src = link; //добавляем картинке адрес SRC
+    popupZoomImage.alt = name;
+    popupCaption.textContent = name; //добавляем имя картинки под картинкой
+    openPopup(popupTypeZoom);
+}
+
 
 // Фукция закрывает попап по клику на оверлей
 function clickByOverlayPopupListener(evt){
@@ -97,53 +98,42 @@ function clickOnEscPopupListener(evt){
     return;
 };
 
-//открывает popup редактирование имени
-function openPopupEditName() {
-  openPopup(popupEditName);
-   firstnameValue.value = name.textContent; // вносим введенное значение в Html
-   professionValue.value = profession.textContent;
-}
-
-function openPopupZoom(name, link){
-    popupZoomImage.src = link; //добавляем картинке адрес SRC
-    popupZoomImage.alt = name;
-    popupCaption.textContent = name; //добавляем имя картинки под картинкой
-    openPopup(popupTypeZoom);
-}
-
 //закрывает любой popup + удаляет слушатели оверлея и ESC
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  deleteErrorAndListenersFromPopup(popup)
-}
-  //закрывает Popup Zoom
-function closePopupZoom() {
-  closePopup(popupTypeZoom); 
+  deleteListenersFromPopup(popup);
 }
 
-function deleteErrorAndListenersFromPopup(popup){
-  popupErrorText.forEach((errorElement) => {errorElement.textContent='';
+//уаляет слушатели из попапа
+function deleteListenersFromPopup(popup){
   document.removeEventListener('keydown', clickOnEscPopupListener); //удаляем листнер ESC
   popup.removeEventListener('click', clickByOverlayPopupListener);//удаляем листнер Overlay
-});
 }
 
 //вставка первоначальных карточек
 cards.forEach((item) => {
   // Создадим экземпляр карточки
-  const card = new Card(item, selectors.template, openPopupZoom);
-  // Создаём карточку и возвращаем наружу
-  const cardElement = card.generateCard();
-  
+  // const card = new Card(item, selectors.template, openPopupZoom);
+  // // Создаём карточку и возвращаем наружу
+  // const cardElement = card.generateCard();
+  const cardElem = createCard(item);
   // Добавляем в DOM
-  cardsContainer.append(cardElement);
+  cardsContainer.append(cardElem);
   }); 
+
+//генератор карточек
+function createCard(item) {
+  const initcard = new Card(item, selectors.template, openPopupZoom); 
+  const cardElement = initcard.generateCard();
+  return cardElement;
+} 
 
 //функция вставки карточки
 function insertCard(card){ 
-   const newCard = new Card(card, selectors.template, openPopupZoom);
-   const cardElement = newCard.generateCard();
-   cardsContainer.prepend(cardElement);
+  //  const newCard = new Card(card, selectors.template, openPopupZoom);
+  //  const cardElement = newCard.generateCard();
+  const cardElement = createCard(card);
+  cardsContainer.prepend(cardElement);
 }
 
 // добавляет  новую карточку из попапа
@@ -157,7 +147,10 @@ function submitPopupAddCardForm(event) {
 
 //Слушатели открытия popup
 buttonEditName.addEventListener("click", openPopupEditName);// открытие popup редактирования имени
-buttonCardAdd.addEventListener("click", () => openPopup(popupAddCard)); //слушатель кнопки добавления карточки + 
+buttonCardAdd.addEventListener("click", () => {
+  openPopup(popupAddCard);
+  openPopupAddCard(popupAddCard);
+}); //слушатель кнопки добавления карточки + 
 
 //слушатели закрытия (крестиком)
 buttonCloseEditName.addEventListener("click", () => closePopup(popupEditName)); //закрытие popup

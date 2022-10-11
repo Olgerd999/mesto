@@ -11,7 +11,7 @@ export default class FormValidator {
 		//валидируемая форма
 		this._classForm = classForm;
 		this._inputList = Array.from(this._classForm.querySelectorAll(this._inputSelector));//находим все input и собираем из в массив.
-		this._errorFormList = Array.from(this._classForm.querySelectorAll(this._formError));//находим все поля Error
+		this._errorFormList = Array.from(this._classForm.querySelectorAll(this._formError));//находим все поля span Error
 	}
 	//показывает сообщение с ошибкой
 	_showInputError(inputElement){
@@ -34,6 +34,13 @@ export default class FormValidator {
 			return !inputElement.validity.valid;
 		  });
 	};
+
+	//чистка полей ошибок
+	clearError(){
+		this._errorFormList.forEach((errorElement) => {
+    	errorElement.textContent='';
+    });
+	}
 	
 	//проверяет поле Input на валидность
 	_checkInputValidity(inputElement){
