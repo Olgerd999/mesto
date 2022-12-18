@@ -1,12 +1,12 @@
 import { selectors } from "./utils.js";
 export default class Card {
-	constructor (data, template, openPopupZoom) {
+	constructor (data, template, handleCardClick) {
 	// в конструкторе будут динамические данные,
     // для каждого экземпляра свои
 		this._name = data.name;
 		this._link = data.link;
 		this._template = template;
-		this._openPopupZoom = openPopupZoom;
+		this._handleCardClick = handleCardClick;
 	}
 
 	_getTemplate() {
@@ -26,6 +26,9 @@ export default class Card {
 	_handleLikeCard() {
 		this._element.querySelector(selectors.buttonHeart).classList.toggle('element__logo_active');
 	}
+	_handleImageClick() {
+		this._handleCardClick(this._name, this._link);
+	  }
 
 	// метод установки слушателей в карточки
 	_setEventListeners() {
@@ -34,7 +37,7 @@ export default class Card {
 	this._element.querySelector(selectors.buttonHeart).addEventListener('click', ()=> {
 		this._handleLikeCard()});
 	this._element.querySelector(selectors.img).addEventListener('click', () => {
-		this._openPopupZoom(this._name, this._link)});
+		this._handleImageClick(this._name, this._link)});
 	}
 
 	generateCard() {
@@ -47,7 +50,7 @@ export default class Card {
 	// Добавим данные (текст карточки и ссылка на img)
 		this._element.querySelector('.element__title').textContent = this._name;
 		this._element.querySelector('.element__image').src = this._link;
-		this._element.querySelector('.element__image').alt = this._link;
+		this._element.querySelector('.element__image').alt = this._name;
 		
 	// Вернём элемент наружу
 		return this._element;
