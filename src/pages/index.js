@@ -1,13 +1,13 @@
-import {cards} from "./сomponents/data.js";
-import Card from "./сomponents/Card.js";
-import FormValidator from "./сomponents/FormValidator.js";
-import {selectors} from "./сomponents/utils.js";
-import {validationConfig} from "./сomponents/utils.js";
-import Section from "./сomponents/Section.js";
-import PopupWithImage from "./сomponents/PopupWithImage.js";
-import PopupWithForm from "./сomponents/PopupWithForm.js";
-import UserInfo from "./сomponents/UserInfo.js";
-import './pages/index.css'; 
+import {cards} from "../data.js";
+import Card from "../сomponents/Card.js";
+import FormValidator from "../сomponents/FormValidator.js";
+import {selectors} from "../data.js";
+import {validationConfig} from "../data.js";
+import Section from "../сomponents/Section.js";
+import PopupWithImage from "../сomponents/PopupWithImage.js";
+import PopupWithForm from "../сomponents/PopupWithForm.js";
+import UserInfo from "../сomponents/UserInfo.js";
+import './index.css'; 
 import {
   buttonEditName,
 	firstnameValue,
@@ -16,9 +16,12 @@ import {
 	buttonCardAdd,
 	formAddCard,
   popupEditName,
-} from './сomponents/utils.js';
+} from '../data.js';
 
 function handleEditProfileButtonClick() {
+  popupNameValidator.clearInputs();
+  popupNameValidator.clearErrors();
+  popupNameValidator.setSubmitButtonState();
   popupEdit.open();
   const userInfoObj = userInfo.getUserInfo();
   firstnameValue.value = userInfoObj.name;
@@ -26,7 +29,7 @@ function handleEditProfileButtonClick() {
 }
 
 function renderCard(cardData) {
-  const cardElement = createCard(cardData); // подумайте как реализовать эту функцию, она просто создает карточку и возвращает её html представление
+  const cardElement = createCard(cardData);
   section.addItem(cardElement);
 }
 
@@ -39,7 +42,8 @@ function createCard(item) {
 
 function handleAddCardClick() {
   popupCardAddValidator.clearInputs();
-  popupCardAddValidator.clearError();
+  popupCardAddValidator.clearErrors();
+  popupCardAddValidator.setSubmitButtonState();
   popupAdd.open();
 }
 
@@ -48,7 +52,8 @@ function handleProfileFormSubmit (formValue){
   popupEdit.close();
 }
 const handleCardFormSubmit = (formValue) => {
-  section.addItem(createCard(formValue));
+
+  section.addItem(renderCard(formValue));//когда тут create Card, все работает. но ревью хочет чтобы тут была render card
   popupAdd.close();
 }
 
@@ -57,7 +62,7 @@ const section = new Section({items: cards, renderer: renderCard}, selectors.card
 section.renderItems();
 const popupEdit = new PopupWithForm('.popup_type_edit-name', handleProfileFormSubmit);
 const popupAdd = new PopupWithForm('.popup_type_add-card', handleCardFormSubmit);
-const userInfo = new UserInfo({nameSelector: '.profile__title', job: '.profile__subtitle'});
+const userInfo = new UserInfo({nameField: '.profile__title', job: '.profile__subtitle'});
 //СЛУШАТЕЛИ
 
 //Слушатели открытия popup

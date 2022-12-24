@@ -1,4 +1,4 @@
-import { selectors } from "./utils.js";
+import { selectors } from "../data.js";
 export default class Card {
 	constructor (data, template, handleCardClick) {
 	// в конструкторе будут динамические данные,
@@ -7,6 +7,7 @@ export default class Card {
 		this._link = data.link;
 		this._template = template;
 		this._handleCardClick = handleCardClick;
+		
 	}
 
 	_getTemplate() {
@@ -49,8 +50,12 @@ export default class Card {
 
 	// Добавим данные (текст карточки и ссылка на img)
 		this._element.querySelector('.element__title').textContent = this._name;
-		this._element.querySelector('.element__image').src = this._link;
-		this._element.querySelector('.element__image').alt = this._name;
+		this._imageCard = this._element.querySelector('.element__image');
+		this._imageCard.src = this._link;
+		this._imageCard.alt = this._name;
+		// this._element.querySelector('.element__image').src = this._link;
+		// this._element.querySelector('.element__image').alt = this._name;
+		// console.log(this._element.querySelector('.element__image'));
 		
 	// Вернём элемент наружу
 		return this._element;

@@ -16,7 +16,7 @@ export default class FormValidator {
     this._errorFormList = Array.from(
       this._form.querySelectorAll(this._formError)
     ); //находим все поля span Error
-    this._buttonElement = this._form.querySelector(this._button);
+
   }
   //показывает сообщение с ошибкой
   _showInputError(inputElement) {
@@ -67,32 +67,22 @@ export default class FormValidator {
   }
 
   ////устанавливаем статус кнопки (активна или неактивна)
-  setSubmitButtonState(inputList) {
-    
+  _setSubmitButtonState(inputList) {
+    const buttonElement = this._form.querySelector(this._button);
     if (this._hasInvalidInput(inputList)) {
-      this._buttonElement.classList.add(this._buttonInvalid);
-      this._buttonElement.setAttribute("disabled", true);
+      buttonElement.classList.add(this._buttonInvalid);
+      buttonElement.setAttribute("disabled", true);
     } else {
-      this._buttonElement.classList.remove(this._buttonInvalid);
-      this._buttonElement.removeAttribute("disabled");
+      buttonElement.classList.remove(this._buttonInvalid);
+      buttonElement.removeAttribute("disabled");
     }
   }
-  // _setSubmitButtonState(inputList) {
-  //   const buttonElement = this._form.querySelector(this._button);
-  //   if (this._hasInvalidInput(inputList)) {
-  //     buttonElement.classList.add(this._buttonInvalid);
-  //     buttonElement.setAttribute("disabled", true);
-  //   } else {
-  //     buttonElement.classList.remove(this._buttonInvalid);
-  //     buttonElement.removeAttribute("disabled");
-  //   }
-  // }
   //установка слушателей
   _setEventListeners() {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
-        this.setSubmitButtonState();
+        this._setSubmitButtonState();
       });
     });
   }
