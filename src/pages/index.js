@@ -19,13 +19,15 @@ import {
 } from '../data.js';
 
 function handleEditProfileButtonClick() {
+  
+  
   popupNameValidator.clearInputs();
   popupNameValidator.clearErrors();
-  popupNameValidator.setSubmitButtonState();
-  popupEdit.open();
   const userInfoObj = userInfo.getUserInfo();
   firstnameValue.value = userInfoObj.name;
   professionValue.value = userInfoObj.job;
+  popupEdit.open();
+  popupNameValidator.setSubmitButtonState();
 }
 
 function renderCard(cardData) {
@@ -41,7 +43,7 @@ function createCard(item) {
 } 
 
 function handleAddCardClick() {
-  popupCardAddValidator.clearInputs();
+  popupCardAddValidator.clearInputs();// переделал чистку (убирает только css стиль)
   popupCardAddValidator.clearErrors();
   popupCardAddValidator.setSubmitButtonState();
   popupAdd.open();
@@ -53,7 +55,7 @@ function handleProfileFormSubmit (formValue){
 }
 const handleCardFormSubmit = (formValue) => {
 
-  section.addItem(renderCard(formValue));//когда тут create Card, все работает. но ревью хочет чтобы тут была render card
+  renderCard(formValue);//когда тут create Card, все работает. но ревью хочет чтобы тут была render card
   popupAdd.close();
 }
 
