@@ -51,7 +51,7 @@ export const validationConfig = {
   popupErrorSpanClass: ".popup__error",
   // errorClass: "popup__input-error_visible",
 };
-const formAvatar = document.querySelector(".popup__form_avatar");
+const formAvatar = document.querySelector(".popup__content_type_avatar");
 const buttonUpdateAvatar = document.querySelector(".profile__avatar");
 const buttonEditName = document.querySelector(".profile__edit-button"); //кнопка с карандашом редактировать имя
 const popupEditName = document.querySelector(".popup_type_edit-name");
