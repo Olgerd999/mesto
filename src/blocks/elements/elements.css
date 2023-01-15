@@ -5,4 +5,8 @@
   grid-template-rows: repeat(2, 1fr);
   gap: 20px 17px;
   justify-content: center;
-}
+} 
+/* .elements {
+  display: flex;
+  justify-content: center;
+} */
