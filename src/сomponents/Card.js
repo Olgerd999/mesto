@@ -1,4 +1,4 @@
-import { selectors } from "../data.js";
+import { selectors } from "../utils/data.js";
 export default class Card {
   constructor(
     data,
@@ -73,7 +73,7 @@ export default class Card {
     this._deleteButton = this._element.querySelector(".elements__delete");
     if (this._deleteButton) {
       this._deleteButton.addEventListener("click", () => {
-        this._handleCardDelete(this._id);
+        this._handleCardDelete(this);
       });
     }
 

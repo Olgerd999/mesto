@@ -1,15 +1,15 @@
-import { cards } from "../data.js";
+import { cards } from "../utils/data.js";
 import Card from "../сomponents/Card.js";
 import FormValidator from "../сomponents/FormValidator.js";
-import { selectors } from "../data.js";
-import { validationConfig } from "../data.js";
+import { selectors } from "../utils/data.js";
+import { validationConfig } from "../utils/data.js";
 import Section from "../сomponents/Section.js";
 import PopupWithImage from "../сomponents/PopupWithImage.js";
 import PopupWithForm from "../сomponents/PopupWithForm.js";
 import UserInfo from "../сomponents/UserInfo.js";
 import Api from "../сomponents/Api.js";
 import PopupDelete from "../сomponents/PopupDelete.js";
-import './index.css';
+// import './index.css';
 import {
   buttonEditName,
   firstnameValue,
@@ -21,7 +21,7 @@ import {
   configApi,
   buttonUpdateAvatar,
   formAvatar,
-} from "../data.js";
+} from "../utils/data.js";
 
 const api = new Api(configApi);
 let userId;
@@ -117,13 +117,14 @@ function handleUpdateAvatarButtonClick() {
   popupAvatar.open();
 }
 
-const handleDeleteCard = (formValue) => {
+const handleDeleteCard = (card) => {
   api
-    .deleteCard(formValue)
+    .deleteCard(card._id)
     .then((data) => {
       // console.log(data);
-      const elem = document.getElementById(formValue);
-      elem.remove();
+      // const elem = document.getElementById(formValue);
+      // elem.remove();
+      card._handleRemoveCard();
       popupDelete.close();
     })
     .catch((error) => console.error(error));
